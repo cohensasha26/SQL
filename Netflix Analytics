@@ -77,7 +77,7 @@ FROM "netflix_titles_info"
 ORDER BY title ASC;
 
 #4. Who was the Director for the movie The Starling?:
-SELECT title, director, type
+SELECT info.title, people.director, info.type
 FROM "netflix_people" people
 LEFT JOIN "netflix_titles_info" info
 ON people.show_id = info.show_id
