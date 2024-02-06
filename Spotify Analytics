@@ -1,0 +1,77 @@
+# For this project, I downloaded Spotify data from Kaggle.
+# Then I created a table to insert Spotify data into.
+# Finally, I performed analytics on the data using SQL. 
+
+#Creating the table: 
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL 
+)
+
+#Then I inserted the Spotify Data .csv into the table.
+
+#Next, I explored the data using the following SQL.
+
+--#1 Who are the top 10 artists based on popularity?--
+SELECT artist_name, popularity
+FROM BIT_DB.Spotify_Analytics
+ORDER BY popularity DESC 
+LIMIT 10;
+
+
+--#2 What is the average danceability for the 10 most popular songs?--
+SELECT AVG(danceability) AS danceability_avg
+FROM BIT_DB.Spotify_Analytics
+WHERE track_name IN (
+SELECT track_name 
+FROM BIT_DB.Spotify_Analytics 
+ORDER BY popularity DESC 
+LIMIT 10);
+
+
+--#3 Which top 3 songs have the highest energy and what is their popularity rating?--
+SELECT track_name, artist_name, energy, popularity
+FROM BIT_DB.Spotify_Analytics
+ORDER BY energy DESC
+LIMIT 3;
+
+
+--#4 How many songs by the artist "Olivia Rodrigo" have a popularity ranking that is "Amazing"?--
+SELECT artist_name, track_name, popularity,
+CASE WHEN popularity <= 39 THEN "Horrible"
+WHEN popularity BETWEEN 40 AND 70 THEN "Okay"
+WHEN popularity BETWEEN 71 AND 89 THEN "Great"
+WHEN popularity >= 90 THEN "Amazing"
+ELSE "Dont_bother"
+END AS "Song Rankings"
+FROM BIT_DB.Spotify_Analytics
+WHERE artist_name = "Olivia Rodrigo"
+ORDER BY popularity DESC;
+
+
+--#5 What arist released the longest song?--
+SELECT artist_name, track_name, MAX(duration_ms)
+FROM BIT_DB.Spotify_Analytics;
+
+--#6 On average how long are songs by "BTS"? --
+SELECT AVG(duration_ms)
+FROM BIT_DB.Spotify_Analytics
+WHERE duration_ms IN (
+SELECT duration_ms FROM BIT_DB.Spotify_Analytics
+WHERE artist_name = "BTS");
