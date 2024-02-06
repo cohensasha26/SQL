@@ -60,19 +60,19 @@ VALUES
 
 # Analysis: 
 
-#Show's the statistic of total revenue and total employees within each industry:
+#1 Show's the statistic of total revenue and total employees within each industry:
 SELECT industry, ROUND(SUM(revenue),2) AS total_revenue, SUM(employees) AS total_employees
 FROM fortune_companies
 GROUP BY industry
 ORDER BY total_revenue DESC;
 
-#Show's the statistic of the average tenure within each industry, ordered by length of tenure:
+#2 Show's the statistic of the average tenure within each industry, ordered by length of tenure:
 SELECT industry, ROUND(AVG(avg_employee_tenure),1) AS employee_tenure_avg, healthcare_benefits
 FROM fortune_companies
 GROUP BY industry
 ORDER BY employee_tenure_avg DESC;
 
-#Assign all the companies as "Healthcare offered", "Healthcare not offered" or "N/A" based on whether healthcare was provided or not and then provided the total number of companies within each assigned groups:
+#3 Assign all the companies as "Healthcare offered", "Healthcare not offered" or "N/A" based on whether healthcare was provided or not and then provided the total number of companies within each assigned groups:
 SELECT COUNT("Healthcare Benefits"),
 CASE WHEN healthcare_benefits = 1 THEN "Healthcare offered"
 WHEN healthcare_benefits = 0 THEN "Healthcare not offered"
@@ -82,21 +82,21 @@ FROM fortune_companies
 GROUP BY "Healthcare Benefits"
 ORDER BY "Healthcare Benefits" DESC;
 
-#Show's the statistic of the average tenure within each industry that offers healthcare benefits. Show's the statistic of the total number of companies in each industry that offers healthcare benefits and the total revenue in each of those industries, ordered by length of tenure: 
+#4 Show's the statistic of the average tenure within each industry that offers healthcare benefits. Show's the statistic of the total number of companies in each industry that offers healthcare benefits and the total revenue in each of those industries, ordered by length of tenure: 
 SELECT industry, ROUND(AVG(avg_employee_tenure),1) AS employee_tenure_avg, COUNT(healthcare_benefits) AS healthcare_benefits_offered, ROUND(SUM(revenue),1) AS total_revenue
 FROM fortune_companies
 WHERE healthcare_benefits = 1
 GROUP BY industry
 ORDER BY employee_tenure_avg DESC;
 
-#Show's the statistic of the average tenure within each industry that does not offer healthcare benefits. Show's the statistics of the total number of companies in each industry that does not offer healthcare benefits and the total revenue in each of those industries, ordered by length of tenure:
+#5 Show's the statistic of the average tenure within each industry that does not offer healthcare benefits. Show's the statistics of the total number of companies in each industry that does not offer healthcare benefits and the total revenue in each of those industries, ordered by length of tenure:
 SELECT industry, ROUND(AVG(avg_employee_tenure),1) AS employee_tenure_avg, COUNT(healthcare_benefits) AS healthcare_benefits_not_offered, ROUND(SUM(revenue),1) AS total_revenue
 FROM fortune_companies
 WHERE healthcare_benefits = 0
 GROUP BY industry
 ORDER BY employee_tenure_avg DESC;
 
-#Show's which companies have healthcare benefits that has more than fifteen days of PTO, maternity leave of at least ten weeks and an average tenure length of at least seven:
+#6 Show's which companies have healthcare benefits that has more than fifteen days of PTO, maternity leave of at least ten weeks and an average tenure length of at least seven:
 SELECT company_name, paid_time_off_days, maternity_leave_weeks, avg_employee_tenure
 FROM fortune_companies
 WHERE healthcare_benefits = 1
@@ -104,15 +104,15 @@ AND paid_time_off_days>15
 AND maternity_leave_weeks>=10
 AND avg_employee_tenure>=7;
 
-#SELECT statement that show's which company in which industry has the highest revenue and what that companies average tenure length is:
+#7 SELECT statement that show's which company in which industry has the highest revenue and what that companies average tenure length is:
 SELECT company_name, industry, MAX(revenue), avg_employee_tenure
 FROM fortune_companies;
 
-#SELECT statement that show's which company in which industry has the lowest revenue and what that companies average tenure length is:
+#8 SELECT statement that show's which company in which industry has the lowest revenue and what that companies average tenure length is:
 SELECT company_name, industry, MIN(revenue), avg_employee_tenure
 FROM fortune_companies;
 
-#Show's which industry has the largest numbers of employees, exceeding 200000 people:
+#9 Show's which industry has the largest numbers of employees, exceeding 200000 people:
 SELECT industry, SUM(employees) AS total_employees
 FROM fortune_companies
 GROUP BY industry
